@@ -19,14 +19,13 @@ window.addEventListener('load', function () {
 
   gsap.registerPlugin(ScrollTrigger);
 
-  /* ---- Hero: background-only parallax, text is never touched -----------
+  /* ---- Hero: background-only effects, text is never touched ------------
      The headline ("We Know Everything About Roof Repair.") and the rest of
      .hero-content are NOT animated at all here — they stay permanently
      visible exactly as they render in plain HTML, both for the visitor and
      for crawlers (this is the same text the SEO/AEO work made sure is
      readable on first paint; nothing here should ever hide it again). Only
-     the background video/image drifts slightly slower than the page
-     scrolls — no pin, just a plain scroll-linked parallax. */
+     the background moves — no pin, nothing on the content. */
   const hero = document.querySelector('.hero');
   const heroMedia = document.querySelector('.hero-media');
   if (hero && heroMedia) {
@@ -41,6 +40,38 @@ window.addEventListener('load', function () {
         scrub: true
       }
     });
+  }
+
+  /* ---- Hero video: playback position scrubs with scroll, not autoplay --
+     The video does not play on its own. It sits paused, and as the visitor
+     scrolls through the hero, GSAP tweens a proxy object's `time` value
+     (eased/smoothed by scrub) from 0 to the video's real duration, writing
+     that value to video.currentTime on every update — so scrolling down
+     plays the video forward frame-by-frame, scrolling up reverses it. This
+     needs the video's real `duration`, which isn't available until its
+     metadata has loaded, so it's wired up once `loadedmetadata` fires. */
+  const heroVideo = document.getElementById('heroVideo');
+  if (hero && heroVideo) {
+    const setupVideoScrub = () => {
+      heroVideo.pause();
+      const proxy = { time: 0 };
+      gsap.to(proxy, {
+        time: heroVideo.duration,
+        ease: 'none',
+        onUpdate: () => { heroVideo.currentTime = proxy.time; },
+        scrollTrigger: {
+          trigger: hero,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true
+        }
+      });
+    };
+    if (heroVideo.readyState >= 1) {
+      setupVideoScrub();
+    } else {
+      heroVideo.addEventListener('loadedmetadata', setupVideoScrub, { once: true });
+    }
   }
 
   /* ---- Process timeline: pin + scroll-scrubbed step reveal --------------
