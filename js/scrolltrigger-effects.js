@@ -2,8 +2,18 @@
    Loaded after gsap.min.js + ScrollTrigger.min.js from cdnjs. Entirely additive:
    if the CDN scripts fail to load, this file no-ops and the existing
    [data-reveal] IntersectionObserver system (js/main.js) still handles every
-   section's basic fade-up, so the page never depends on this for usability. */
-(function () {
+   section's basic fade-up, so the page never depends on this for usability.
+
+   Setup is deliberately deferred to window 'load' (not run immediately, and
+   not just DOMContentLoaded) — the hero photo has no explicit width/height,
+   so before it finishes loading the page is shorter than its final height.
+   Creating ScrollTrigger positions against that pre-image layout computed a
+   much-too-small pin range, which made the scrub proxy immediately animate
+   to its end state (hero text opacity 0) before the real scroll position
+   caught up — i.e. the hero text was invisible from the very first paint.
+   Waiting for 'load' means every image has already settled into its final
+   layout size before any ScrollTrigger start/end math happens. */
+window.addEventListener('load', function () {
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
@@ -25,13 +35,14 @@
   if (hero && heroMedia && heroContent) {
     heroMedia.classList.add('has-parallax');
 
+    gsap.set(heroContent, { opacity: 1, y: 0, scale: 1 });
     const heroTl = gsap.timeline({
       scrollTrigger: {
         trigger: hero,
         start: 'top top',
         end: '+=80%',
         pin: true,
-        scrub: 1
+        scrub: true
       }
     });
     heroTl.to(heroMedia, { yPercent: 15, ease: 'none' }, 0);
@@ -66,4 +77,4 @@
       ease: 'none'
     });
   });
-})();
+});
