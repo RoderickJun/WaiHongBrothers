@@ -9,22 +9,34 @@
 
   gsap.registerPlugin(ScrollTrigger);
 
-  /* ---- Hero parallax ----------------------------------------------------
-     The background photo drifts slower than the page scrolls, using the
-     oversized .has-parallax sizing in css/style.css so no empty edge shows. */
+  /* ---- Hero: pinned intro, effect starts at the very first scroll pixel -
+     The headline ("We Know Everything About Roof Repair.") stays fully
+     visible at rest on page load — it is NOT hidden-until-scroll, since
+     that text needs to stay visible on first paint for crawlers/AEO (this
+     is the exact text the SEO/AEO work earlier made sure real crawlers can
+     read immediately). Instead the ScrollTrigger effect controls how the
+     hero EXITS: pin the section right from scroll position 0, and scrub
+     the content fading/scaling away while the background parallaxes,
+     before the page releases into the Trust section. */
+  const hero = document.querySelector('.hero');
   const heroMedia = document.querySelector('.hero-media');
-  if (heroMedia) {
+  const heroContent = document.querySelector('.hero-content');
+  const scrollCue = document.querySelector('.scroll-cue');
+  if (hero && heroMedia && heroContent) {
     heroMedia.classList.add('has-parallax');
-    gsap.to(heroMedia, {
-      yPercent: 15,
-      ease: 'none',
+
+    const heroTl = gsap.timeline({
       scrollTrigger: {
-        trigger: '.hero',
+        trigger: hero,
         start: 'top top',
-        end: 'bottom top',
-        scrub: true
+        end: '+=80%',
+        pin: true,
+        scrub: 1
       }
     });
+    heroTl.to(heroMedia, { yPercent: 15, ease: 'none' }, 0);
+    heroTl.to(heroContent, { opacity: 0, y: -60, scale: 0.94, ease: 'none' }, 0);
+    if (scrollCue) heroTl.to(scrollCue, { opacity: 0, ease: 'none' }, 0);
   }
 
   /* ---- Process timeline: pin + scroll-scrubbed step reveal --------------
