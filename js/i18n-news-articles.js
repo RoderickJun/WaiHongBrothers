@@ -75,7 +75,31 @@ Object.assign(WHB_I18N.en, {
   'articleMembrane.h2Protect': 'Protect Your Home Today',
   'articleMembrane.protectBody': "Don't let roof leaks ruin your home during the rainy season. Take the proactive step of installing a torch-on membrane to keep your house safe, dry, and comfortable all year round.",
   'articleMembrane.h2Contact': 'Contact Us',
-  'articleMembrane.contactBody': 'Reach out to Wai Hong Brothers Sdn Bhd for a free site inspection and a torch-on membrane waterproofing quotation tailored to your property.'
+  'articleMembrane.contactBody': 'Reach out to Wai Hong Brothers Sdn Bhd for a free site inspection and a torch-on membrane waterproofing quotation tailored to your property.',
+
+  'articleCost.eyebrow': 'Cost Guide · 16 October 2026',
+  'articleCost.cat': 'Cost Guide',
+  'articleCost.date': '16 October 2026',
+  'articleCost.title': 'How Much Does Roof Repair &amp; Waterproofing Cost in Malaysia?',
+  'articleCost.intro': "There's no single fixed price for roof repair or waterproofing in Malaysia — the real figure depends on what's actually wrong with your roof, which only becomes clear after a proper inspection. Here's what genuinely affects the cost, and what to expect from our process.",
+  'articleCost.h2Factors': 'What Affects Roof Repair &amp; Waterproofing Cost',
+  'articleCost.f1title': 'Extent &amp; Type of Damage',
+  'articleCost.f1desc': "A single cracked tile costs far less to fix than widespread leaks, rotted timber trusses, or structural damage that's gone unaddressed for years.",
+  'articleCost.f2title': 'Roof Material',
+  'articleCost.f2desc': 'Concrete tiles, V-Bond stone-coated tiles, metal roofing and asphalt shingles each have different material and labour costs — and different long-term value.',
+  'articleCost.f3title': 'Roof Size &amp; Area',
+  'articleCost.f3desc': 'A larger roof naturally needs more material and labour hours than a small single-storey extension.',
+  'articleCost.f4title': 'Accessibility &amp; Height',
+  'articleCost.f4desc': "High-rise buildings need rope-access-certified teams and additional safety measures, which landed single or double-storey homes don't.",
+  'articleCost.f5title': 'Waterproofing Method',
+  'articleCost.f5desc': 'Torch-on membrane, PU waterproofing, PU injection and cementitious waterproofing each suit different surfaces and leak types, at different costs.',
+  'articleCost.f6title': 'Warranty Coverage',
+  'articleCost.f6desc': 'Our repairs typically come with a 5–10 year warranty — a longer warranty reflects the durability of the materials and workmanship used.',
+  'articleCost.h2Process': 'Why We Inspect Before We Quote',
+  'articleCost.processBody': "We don't give prices over the phone, because no two leaks have the same root cause. Our team inspects the outside of your roof with a drone and checks inside for water stains and structural issues, then explains the problem, the options and the price on the spot — so you know exactly what you're paying for before you decide anything.",
+  'articleCost.h2Steps': 'Our Free Site Inspection Process',
+  'articleCost.h2Cta': 'Get an Accurate, No-Obligation Quote',
+  'articleCost.ctaBody': "The only way to know the real cost of your roof repair or waterproofing job is a free, no-obligation site inspection. Reach out and we'll schedule a visit."
 });
 
 Object.assign(WHB_I18N['zh-CN'], {
@@ -151,5 +175,29 @@ Object.assign(WHB_I18N['zh-CN'], {
   'articleMembrane.h2Protect': '现在就保护您的家',
   'articleMembrane.protectBody': '别让屋顶漏水破坏您的家。现在就主动安装热熔防水卷材，让您的房子全年安全、干燥又舒适。',
   'articleMembrane.h2Contact': '联系我们',
-  'articleMembrane.contactBody': '欢迎联系华鸿兄弟有限公司，预约免费现场勘察，并为您的物业量身定制热熔防水卷材报价方案。'
+  'articleMembrane.contactBody': '欢迎联系华鸿兄弟有限公司，预约免费现场勘察，并为您的物业量身定制热熔防水卷材报价方案。',
+
+  'articleCost.eyebrow': '费用指南 · 2026年10月16日',
+  'articleCost.cat': '费用指南',
+  'articleCost.date': '2026年10月16日',
+  'articleCost.title': '马来西亚屋顶维修与防水工程费用要多少？',
+  'articleCost.intro': '马来西亚的屋顶维修或防水工程，并没有一个统一的固定价格——真正的费用取决于您的屋顶实际出现了什么问题，而这只有在专业检查后才能确定。以下是真正会影响费用的因素，以及我们的服务流程。',
+  'articleCost.h2Factors': '影响屋顶维修与防水费用的因素',
+  'articleCost.f1title': '损坏程度与类型',
+  'articleCost.f1desc': '一片破裂的瓦片，维修费用远低于大范围漏水、桁架腐朽，或长期未处理的结构性损坏。',
+  'articleCost.f2title': '屋顶材料',
+  'articleCost.f2desc': '混凝土瓦、V-Bond彩石涂层瓦、金属屋顶与沥青瓦，材料与人工成本各不相同，长期价值也不同。',
+  'articleCost.f3title': '屋顶面积',
+  'articleCost.f3desc': '屋顶面积越大，所需的材料与工时自然也越多，相比小型单层扩建部分成本更高。',
+  'articleCost.f4title': '施工难度与高度',
+  'articleCost.f4desc': '高楼建筑需要具备绳索作业认证的团队与额外安全措施，这是有地单层或双层住宅不需要的。',
+  'articleCost.f5title': '防水方式',
+  'articleCost.f5desc': '热熔防水卷材、PU防水、PU注入式堵漏与水泥基防水，各自适用于不同表面与漏水类型，费用也不同。',
+  'articleCost.f6title': '保固范围',
+  'articleCost.f6desc': '我们的维修工程通常提供5至10年保固——保固期越长，代表所使用的材料与施工品质越有保障。',
+  'articleCost.h2Process': '为什么我们先勘察才报价',
+  'articleCost.processBody': '我们不会在电话中直接报价，因为没有两个漏水问题的根源是完全相同的。我们的团队会用无人机检查屋顶外部，并进入室内检查水渍与结构问题，然后当场为您说明问题所在、可选方案与价格——让您在做出任何决定之前，清楚知道这笔费用花在哪里。',
+  'articleCost.h2Steps': '我们的免费现场勘察流程',
+  'articleCost.h2Cta': '获取准确、无压力的报价',
+  'articleCost.ctaBody': '要知道您的屋顶维修或防水工程真正要花多少钱，唯一的方法就是安排一次免费、无压力的现场勘察。欢迎联系我们，我们会为您安排时间。'
 });
