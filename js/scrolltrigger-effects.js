@@ -19,35 +19,28 @@ window.addEventListener('load', function () {
 
   gsap.registerPlugin(ScrollTrigger);
 
-  /* ---- Hero: pinned intro, effect starts at the very first scroll pixel -
-     The headline ("We Know Everything About Roof Repair.") stays fully
-     visible at rest on page load — it is NOT hidden-until-scroll, since
-     that text needs to stay visible on first paint for crawlers/AEO (this
-     is the exact text the SEO/AEO work earlier made sure real crawlers can
-     read immediately). Instead the ScrollTrigger effect controls how the
-     hero EXITS: pin the section right from scroll position 0, and scrub
-     the content fading/scaling away while the background parallaxes,
-     before the page releases into the Trust section. */
+  /* ---- Hero: background-only parallax, text is never touched -----------
+     The headline ("We Know Everything About Roof Repair.") and the rest of
+     .hero-content are NOT animated at all here — they stay permanently
+     visible exactly as they render in plain HTML, both for the visitor and
+     for crawlers (this is the same text the SEO/AEO work made sure is
+     readable on first paint; nothing here should ever hide it again). Only
+     the background video/image drifts slightly slower than the page
+     scrolls — no pin, just a plain scroll-linked parallax. */
   const hero = document.querySelector('.hero');
   const heroMedia = document.querySelector('.hero-media');
-  const heroContent = document.querySelector('.hero-content');
-  const scrollCue = document.querySelector('.scroll-cue');
-  if (hero && heroMedia && heroContent) {
+  if (hero && heroMedia) {
     heroMedia.classList.add('has-parallax');
-
-    gsap.set(heroContent, { opacity: 1, y: 0, scale: 1 });
-    const heroTl = gsap.timeline({
+    gsap.to(heroMedia, {
+      yPercent: 15,
+      ease: 'none',
       scrollTrigger: {
         trigger: hero,
         start: 'top top',
-        end: '+=80%',
-        pin: true,
+        end: 'bottom top',
         scrub: true
       }
     });
-    heroTl.to(heroMedia, { yPercent: 15, ease: 'none' }, 0);
-    heroTl.to(heroContent, { opacity: 0, y: -60, scale: 0.94, ease: 'none' }, 0);
-    if (scrollCue) heroTl.to(scrollCue, { opacity: 0, ease: 'none' }, 0);
   }
 
   /* ---- Process timeline: pin + scroll-scrubbed step reveal --------------
