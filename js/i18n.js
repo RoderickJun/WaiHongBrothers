@@ -6,6 +6,10 @@
    data-i18n           -> sets element.innerHTML (safe for the handful of
                            entries that contain a nested <span>)
    data-i18n-placeholder -> sets element.placeholder (form inputs/textarea)
+   data-i18n-aria-label  -> sets element's aria-label attribute (for icon/short-text
+                           links whose visible text needs to stay generic, e.g. a
+                           repeated "Learn More" button — the accessible name still
+                           needs to be unique/descriptive per link for SEO/a11y)
 
    Currently only the homepage (index.html) has keys wired up; other pages
    still show the switch button (for consistency) but have no matching
@@ -97,6 +101,14 @@ const WHB_I18N = {
     'services.s8title': 'V-Bond Stone Coated Roof Tiles',
     'services.s8desc': 'Premium patented stone-coated tile installation for durability and aesthetics.',
     'services.learnMore': 'Learn More',
+    'services.s1learnMoreAria': 'Learn more about Flat Roof / Slab Waterproofing',
+    'services.s2learnMoreAria': 'Learn more about Roof Coating & UV/Heat Insulation',
+    'services.s3learnMoreAria': 'Learn more about Roof Refurbishment / Replacement',
+    'services.s4learnMoreAria': 'Learn more about Metal Roof Installation & Repair',
+    'services.s5learnMoreAria': 'Learn more about Roof Tiles Repair, Replacement & Installation',
+    'services.s6learnMoreAria': 'Learn more about Roof Trusses Replacement & Strengthening',
+    'services.s7learnMoreAria': 'Learn more about High-Rise Building Roof Repairs',
+    'services.s8learnMoreAria': 'Learn more about V-Bond Stone Coated Roof Tiles',
     'services.viewAll': 'View All Services',
 
     'ba.eyebrow': 'Illustrative Finish Preview',
@@ -369,6 +381,14 @@ const WHB_I18N = {
     'services.s8title': 'V-Bond彩石涂层瓦片',
     'services.s8desc': '优质专利彩石涂层瓦片安装，兼具耐用性与美观外型。',
     'services.learnMore': '了解更多',
+    'services.s1learnMoreAria': '了解更多关于平屋顶／楼板防水工程',
+    'services.s2learnMoreAria': '了解更多关于屋顶涂层与紫外线／隔热处理',
+    'services.s3learnMoreAria': '了解更多关于屋顶翻新／更换工程',
+    'services.s4learnMoreAria': '了解更多关于金属屋顶安装与维修',
+    'services.s5learnMoreAria': '了解更多关于屋瓦维修、更换与安装',
+    'services.s6learnMoreAria': '了解更多关于屋顶桁架更换与加固',
+    'services.s7learnMoreAria': '了解更多关于高楼屋顶维修工程',
+    'services.s8learnMoreAria': '了解更多关于V-Bond彩石涂层瓦片',
     'services.viewAll': '查看全部服务',
 
     'ba.eyebrow': '效果示意预览',
@@ -583,6 +603,10 @@ const WHB_I18N = {
     document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
       const key = el.dataset.i18nPlaceholder;
       if (dict[key] !== undefined) el.placeholder = dict[key];
+    });
+    document.querySelectorAll('[data-i18n-aria-label]').forEach(el => {
+      const key = el.dataset.i18nAriaLabel;
+      if (dict[key] !== undefined) el.setAttribute('aria-label', dict[key]);
     });
   }
 
