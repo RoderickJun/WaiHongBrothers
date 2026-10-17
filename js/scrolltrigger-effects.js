@@ -33,7 +33,14 @@ window.addEventListener('load', function () {
      image into a canvas is instant and frame-accurate on every scroll tick,
      unlike seeking a compressed video's currentTime (which stutters between
      keyframes) — the user explicitly asked for the photo-sequence approach
-     after finding the video-scrub version wasn't smooth enough.
+     after finding the video-scrub version wasn't smooth enough. The hero
+     is pinned for the duration of the sequence (end: '+=100%') — scrolling
+     down holds the page in place until all 50 frames have played through,
+     then releases into the Trust section; scrolling up while still pinned
+     plays the sequence in reverse. Unlike the earlier pin attempt that
+     animated .hero-content's opacity (see the big comment above this one),
+     nothing here ever touches .hero-content, so that specific stuck-at-0
+     bug class doesn't apply — verified anyway via CDP after this change.
      #heroFallbackImg (frame-001.jpg, same image the canvas starts on) stays
      the visible element and the canvas stays hidden until every frame has
      finished preloading, so there's never a blank/half-loaded background. */
@@ -76,7 +83,8 @@ window.addEventListener('load', function () {
             scrollTrigger: {
               trigger: hero,
               start: 'top top',
-              end: 'bottom top',
+              end: '+=100%',
+              pin: true,
               scrub: true
             }
           });
