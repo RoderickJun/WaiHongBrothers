@@ -19,58 +19,71 @@ window.addEventListener('load', function () {
 
   gsap.registerPlugin(ScrollTrigger);
 
-  /* ---- Hero: background-only effects, text is never touched ------------
+  /* ---- Hero: image-sequence scrub, text is never touched ----------------
      The headline ("We Know Everything About Roof Repair.") and the rest of
      .hero-content are NOT animated at all here — they stay permanently
      visible exactly as they render in plain HTML, both for the visitor and
      for crawlers (this is the same text the SEO/AEO work made sure is
-     readable on first paint; nothing here should ever hide it again). Only
-     the background moves — no pin, nothing on the content. */
-  const hero = document.querySelector('.hero');
-  const heroMedia = document.querySelector('.hero-media');
-  if (hero && heroMedia) {
-    heroMedia.classList.add('has-parallax');
-    gsap.to(heroMedia, {
-      yPercent: 15,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: hero,
-        start: 'top top',
-        end: 'bottom top',
-        scrub: true
-      }
-    });
-  }
+     readable on first paint; nothing here should ever hide it again).
 
-  /* ---- Hero video: playback position scrubs with scroll, not autoplay --
-     The video does not play on its own. It sits paused, and as the visitor
-     scrolls through the hero, GSAP tweens a proxy object's `time` value
-     (eased/smoothed by scrub) from 0 to the video's real duration, writing
-     that value to video.currentTime on every update — so scrolling down
-     plays the video forward frame-by-frame, scrolling up reverses it. This
-     needs the video's real `duration`, which isn't available until its
-     metadata has loaded, so it's wired up once `loadedmetadata` fires. */
-  const heroVideo = document.getElementById('heroVideo');
-  if (hero && heroVideo) {
-    const setupVideoScrub = () => {
-      heroVideo.pause();
-      const proxy = { time: 0 };
-      gsap.to(proxy, {
-        time: heroVideo.duration,
-        ease: 'none',
-        onUpdate: () => { heroVideo.currentTime = proxy.time; },
-        scrollTrigger: {
-          trigger: hero,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true
-        }
-      });
+     This is a photo-sequence scrub, not a <video> currentTime scrub — 50
+     still JPEGs (images/hero-frames/frame-001.jpg..frame-050.jpg, extracted
+     from the user's source video) are preloaded into memory, then drawn to
+     a <canvas> one at a time as the visitor scrolls. Swapping a pre-decoded
+     image into a canvas is instant and frame-accurate on every scroll tick,
+     unlike seeking a compressed video's currentTime (which stutters between
+     keyframes) — the user explicitly asked for the photo-sequence approach
+     after finding the video-scrub version wasn't smooth enough.
+     #heroFallbackImg (frame-001.jpg, same image the canvas starts on) stays
+     the visible element and the canvas stays hidden until every frame has
+     finished preloading, so there's never a blank/half-loaded background. */
+  const hero = document.querySelector('.hero');
+  const heroFallbackImg = document.getElementById('heroFallbackImg');
+  const heroCanvas = document.getElementById('heroSequenceCanvas');
+  if (hero && heroFallbackImg && heroCanvas) {
+    const FRAME_COUNT = 50;
+    const framePath = (i) => `images/hero-frames/frame-${String(i + 1).padStart(3, '0')}.jpg`;
+    const ctx = heroCanvas.getContext('2d');
+    const images = new Array(FRAME_COUNT);
+    let loadedCount = 0;
+    let currentDrawnIndex = -1;
+
+    const drawFrame = (index) => {
+      const img = images[index];
+      if (!img || !img.complete || currentDrawnIndex === index) return;
+      currentDrawnIndex = index;
+      if (heroCanvas.width !== img.naturalWidth || heroCanvas.height !== img.naturalHeight) {
+        heroCanvas.width = img.naturalWidth;
+        heroCanvas.height = img.naturalHeight;
+      }
+      ctx.drawImage(img, 0, 0);
     };
-    if (heroVideo.readyState >= 1) {
-      setupVideoScrub();
-    } else {
-      heroVideo.addEventListener('loadedmetadata', setupVideoScrub, { once: true });
+
+    for (let i = 0; i < FRAME_COUNT; i++) {
+      const img = new Image();
+      img.onload = () => {
+        loadedCount++;
+        if (loadedCount === FRAME_COUNT) {
+          drawFrame(0);
+          heroFallbackImg.style.display = 'none';
+          heroCanvas.style.display = 'block';
+
+          gsap.to({ frame: 0 }, {
+            frame: FRAME_COUNT - 1,
+            ease: 'none',
+            snap: 'frame',
+            onUpdate: function () { drawFrame(Math.round(this.targets()[0].frame)); },
+            scrollTrigger: {
+              trigger: hero,
+              start: 'top top',
+              end: 'bottom top',
+              scrub: true
+            }
+          });
+        }
+      };
+      img.src = framePath(i);
+      images[i] = img;
     }
   }
 
